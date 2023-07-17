@@ -26,7 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <arm_math.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,7 +47,12 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+static float32_t FFT_Res[MAX_DATA_NUM_FFT];
+static float32_t FFT_Mag[MAX_DATA_NUM_FFT];
+static float32_t ADC_values_f[MAX_DATA_NUM_FFT];
+static float32_t FFT_Max_val;
+static uint32_t FFT_Max_index;
+static uint64_t ADC_values_sum = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -96,13 +101,30 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
 	HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_values, MAX_DATA_NUM_FFT + 4);
-  Timer_2_Adjust(25600);
+  Timer_2_Adjust(SAMPLE_RATE_FFT);
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
   while (!conv_done)
   {
     ;
   }
-  USART_Conv_Data(adc_values + 4, MAX_DATA_NUM_FFT);
+//  USART_Conv_Data(adc_values + 4, MAX_DATA_NUM_FFT);
+  arm_rfft_fast_instance_f32 S;
+  arm_rfft_fast_init_f32(&S, MAX_DATA_NUM_FFT);
+  for (uint16_t i = 0; i < MAX_DATA_NUM_FFT; ++i)
+  {
+	ADC_values_sum += adc_values[i];
+	ADC_values_f[i] = (float32_t)adc_values[i];
+  }
+  float ADC_values_mean = (float)ADC_values_sum / MAX_DATA_NUM_FFT;
+  for (uint16_t i = 0; i < MAX_DATA_NUM_FFT; ++i)
+  {
+	ADC_values_f[i] -= (float32_t)ADC_values_mean;
+	ADC_values_f[i] *= 0.0008056640625f;
+  }
+  arm_rfft_fast_f32(&S, ADC_values_f, FFT_Res, 0);
+  arm_cmplx_mag_squared_f32(FFT_Res, FFT_Mag, MAX_DATA_NUM_FFT);
+  arm_max_f32(FFT_Mag, MAX_DATA_NUM_FFT / 2, &FFT_Max_val, &FFT_Max_index);
+  printf("val:%f, ind:%d\n", FFT_Max_val, FFT_Max_index);
   /* USER CODE END 2 */
 
   /* Infinite loop */

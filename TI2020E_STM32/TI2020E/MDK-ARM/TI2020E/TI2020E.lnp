@@ -57,7 +57,7 @@
 "ti2020e\supportfunctionsf16.o"
 "ti2020e\transformfunctions.o"
 "ti2020e\transformfunctionsf16.o"
---strict --scatter "TI2020E\TI2020E.sct"
+--library_type=microlib --strict --scatter "TI2020E\TI2020E.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "TI2020E.map" -o TI2020E\TI2020E.axf

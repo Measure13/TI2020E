@@ -48,9 +48,9 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-#define MAX_DATA_NUM_FFT 256
+#define MAX_DATA_NUM_FFT 128
 #define MAX_DATA_NUM_SPC 1024
-#define SAMPLE_RATE_FFT 25600
+#define SAMPLE_RATE_FFT 12800
 #define SAMPLE_RATE_SPC 1024000
 /* USER CODE END EM */
 
