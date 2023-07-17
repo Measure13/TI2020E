@@ -41,7 +41,7 @@ extern TIM_HandleTypeDef htim2;
 void MX_TIM2_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+void Timer_2_Adjust(uint32_t freq);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

@@ -21,7 +21,9 @@
 #include "adc.h"
 
 /* USER CODE BEGIN 0 */
-
+#include "tim.h"
+uint16_t adc_values[MAX_DATA_NUM_SPC + 4];
+volatile bool conv_done = false;
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc1;
@@ -146,5 +148,11 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 }
 
 /* USER CODE BEGIN 1 */
-
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+{
+	/* Prevent unused argument(s) compilation warning */
+	UNUSED(hadc);
+	HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2);
+	conv_done = true;
+}
 /* USER CODE END 1 */

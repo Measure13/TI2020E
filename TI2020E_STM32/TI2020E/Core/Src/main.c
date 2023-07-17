@@ -94,7 +94,15 @@ int main(void)
   MX_TIM2_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start_IT(&htim2);
+	HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_values, MAX_DATA_NUM_FFT + 4);
+  Timer_2_Adjust(25600);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+  while (!conv_done)
+  {
+    ;
+  }
+  USART_Conv_Data(adc_values + 4, MAX_DATA_NUM_FFT);
   /* USER CODE END 2 */
 
   /* Infinite loop */

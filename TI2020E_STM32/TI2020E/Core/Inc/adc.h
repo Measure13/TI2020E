@@ -41,7 +41,8 @@ extern ADC_HandleTypeDef hadc1;
 void MX_ADC1_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+extern volatile bool conv_done;
+extern uint16_t adc_values[MAX_DATA_NUM_SPC + 4];
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
