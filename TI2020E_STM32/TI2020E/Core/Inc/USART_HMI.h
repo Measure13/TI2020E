@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include "usart.h"
+#include "main.h"
 
 #define MAX_SEND_LEN 256
 #define MAX_SEND_DATA 240

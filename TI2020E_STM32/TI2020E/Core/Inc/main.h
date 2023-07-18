@@ -34,6 +34,7 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -52,6 +53,9 @@ extern "C" {
 #define MAX_DATA_NUM_SPC 256
 #define SAMPLE_RATE_FFT 12800
 #define SAMPLE_RATE_SPC 64000
+#define REMEASURE_NUM 5
+#define TOP_SMOOTH_NUM 4
+#define CROSS_OVER_ZEROS 10
 
 #define TOP_DISTORTION 0
 #define BOTTOM_DISTORTION 1

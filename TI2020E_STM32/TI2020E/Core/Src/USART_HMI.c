@@ -187,7 +187,26 @@ void UARTHMI_Set_Text(uint8_t index, uint8_t *char_p)
 
 void UARTHMI_Send_Text(uint8_t index, uint8_t wrong_info)
 {
-    UARTHMI_Set_Text(index, "o");
+    switch (wrong_info)
+    {
+    case TOP_DISTORTION:
+        UARTHMI_Set_Text(index, "\xb6\xa5\xb2\xbf\xca\xa7\xd5\xe6");
+        break;
+    case BOTTOM_DISTORTION:
+        UARTHMI_Set_Text(index, "\xb5\xd7\xb2\xbf\xca\xa7\xd5\xe6");
+        break;
+    case BOTH_DISTORTION:
+        UARTHMI_Set_Text(index, "\xcb\xab\xcf\xf2\xca\xa7\xd5\xe6");
+        break;
+    case CO_DISTORTION:
+        UARTHMI_Set_Text(index, "\xbd\xbb\xd4\xbd\xca\xa7\xd5\xe6");
+        break;
+    case NO_DISTORTION:
+        UARTHMI_Set_Text(index, "\xce\xde\xca\xa7\xd5\xe6");
+        break;
+    default:
+        break;
+    }
 }
 
 void UARTHMI_Set_Number(uint8_t index, int number)
