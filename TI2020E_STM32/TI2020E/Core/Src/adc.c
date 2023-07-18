@@ -158,7 +158,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 
 void ADC_Get_Values(uint32_t sample_rate)
 {
-  Timer_2_Adjust(SAMPLE_RATE_SPC);
+  Timer_2_Adjust(sample_rate);
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
   while (!conv_done)
   {
