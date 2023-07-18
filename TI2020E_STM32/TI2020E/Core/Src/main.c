@@ -292,11 +292,11 @@ static void Data_Analysis(void)
     U1 = FFT_Max_val;
     for (uint16_t i = 1; i < 4; ++i)
     {
-      if (FFT_Mag[FFT_Max_index + i] > 0.25f * FFT_Max_val)
+      if (FFT_Mag[FFT_Max_index + i] > ACCEPT_LIMIT * FFT_Max_val)
       {
         U1 += FFT_Mag[FFT_Max_index + i];
       }
-    if (FFT_Mag[FFT_Max_index - i] > 0.25f * FFT_Max_val)
+    if (FFT_Mag[FFT_Max_index - i] > ACCEPT_LIMIT * FFT_Max_val)
       {
         U1 += FFT_Mag[FFT_Max_index - i];
       }
@@ -308,11 +308,11 @@ static void Data_Analysis(void)
       U25[i - 2] = FFT_Mag[ref_index];
       for (uint16_t j = 1; j < 4; ++j)
       {
-        if (FFT_Mag[ref_index + j] > 0.25f * FFT_Mag[ref_index])
+        if (FFT_Mag[ref_index + j] > ACCEPT_LIMIT * FFT_Mag[ref_index])
         {
           U25[i - 2] += FFT_Mag[ref_index + j];
         }
-        if (FFT_Mag[ref_index - j] > 0.25f * FFT_Mag[ref_index])
+        if (FFT_Mag[ref_index - j] > ACCEPT_LIMIT * FFT_Mag[ref_index])
         {
           U25[i - 2] += FFT_Mag[ref_index - j];
         }

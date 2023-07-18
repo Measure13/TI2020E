@@ -49,11 +49,14 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-#define MAX_DATA_NUM_FFT 128
+#define MAX_DATA_NUM_FFT 256
 #define MAX_DATA_NUM_SPC 256
 #define SAMPLE_RATE_FFT 12800
 #define SAMPLE_RATE_SPC 64000
-#define REMEASURE_NUM 5
+
+#define ACCEPT_LIMIT 0.0005f
+
+#define REMEASURE_NUM 15
 #define TOP_SMOOTH_NUM 4
 #define CROSS_OVER_ZEROS 10
 
