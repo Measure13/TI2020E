@@ -5,20 +5,41 @@ import matplotlib.pyplot as plt
 
 sig_amp = 2.7 / 2
 dc_bias = 1.5
+diode_drop = 0.7
+
 up_lim = dc_bias + sig_amp / 6
+down_lim = dc_bias - sig_amp / 6
+up = 0
+down = 1
+both = 2
+cross_over = 3
+no = 5
+distortion = cross_over
 
 x = np.arange(256, dtype=np.float64) * 20 * pi / 255
 y_normal = sig_amp * np.sin(x) + dc_bias
-y_up = y_normal.copy()
-y_up[y_up > up_lim] = up_lim
-fft_res = fft(y_up)
+y_dist = y_normal.copy()
+if distortion == up:
+    y_dist[y_dist > up_lim] = up_lim
+elif distortion == down:
+    y_dist[y_dist < down_lim] = down_lim
+elif distortion == both:
+    y_dist[y_dist > up_lim] = up_lim
+    y_dist[y_dist < down_lim] = down_lim
+elif distortion == cross_over:
+    y_dist[np.all([[y_dist >= -diode_drop + dc_bias], [diode_drop + dc_bias >= y_dist]], axis=0)[0]] = dc_bias
+    y_dist[y_dist < -diode_drop + dc_bias] = y_dist[y_dist < -diode_drop + dc_bias] + diode_drop
+    y_dist[y_dist > diode_drop + dc_bias] = y_dist[y_dist > diode_drop + dc_bias] - diode_drop
+elif distortion == no:
+    pass
+fft_res = fft(y_dist)
 fft_amp = np.absolute(fft_res)
 fft_ang = np.angle(fft_res, True)
 max_ind = np.argmax(fft_amp[1:]) + 1
 fft_dc = fft_amp[0] / 10
 fig, axes = plt.subplots(3, 1, sharex=True)
 axes[0].plot(x, y_normal, label="normal")
-axes[1].plot(x, y_up, label="up")
+axes[1].plot(x, y_dist, label="dist")
 axes[2].plot(x, fft_amp, label="fft")
 print(max_ind)
 amp_correct = 2.7 / (fft_amp[max_ind] * fft_dc)
