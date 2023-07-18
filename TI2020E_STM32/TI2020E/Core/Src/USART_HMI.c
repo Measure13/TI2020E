@@ -72,6 +72,43 @@ void UARTHMI_Draw_Curve_addt(int index, float *pf, uint16_t num, uint8_t margin)
     receive_done = false;
 }
 
+void UARTHMI_Draw_ADC_Wave(int index, uint16_t *pf, uint16_t num, uint8_t margin)
+{
+    char message[50];
+    uint8_t data_tmp_write[MAX_SEND_LEN];
+    uint16_t max_data = pf[0], min_data = pf[0];
+	float coef = 0.0f;
+
+    memset(message, 0x00, sizeof(char) * 50);
+    sprintf(message, "addt s%d.id,0,%d\xff\xff\xff", index, num);
+    USART_Send_Data_Direct((uint8_t*)message, strlen(message));
+    while (!ready_to_receive)
+    {
+    }
+    ready_to_receive = false;
+    for (uint16_t i = 1; i < num; ++i)
+    {
+        if (max_data < pf[i])
+        {
+            max_data = pf[i];
+        }
+        if (min_data > pf[i])
+        {
+            min_data = pf[i];
+        }
+    }
+    coef = (float)(MAX_SEND_DATA - 2 * margin) / (max_data - min_data);
+    for (int16_t i = num - 1; i >= 0; --i)
+    {
+        data_tmp_write[i] = (uint8_t)((pf[i] - min_data) * coef + margin);
+    }
+    USART_Send_Data_Direct(data_tmp_write, num);
+    while (!receive_done)
+    {
+    }
+    receive_done = false;
+}
+
 static uint8_t UARTHMI_Get_Integer_Digits(int integer)
 {
     int temp;
@@ -133,7 +170,7 @@ static void UARTHMI_Set_Float(int index, float float_num, uint8_t digits_for_int
 void UARTHMI_Send_Float(int index, float float_num)
 {
     //UARTHMI_Set_Float(index, float_num, 1, 2);
-    printf("x%d.val=%d\xff\xff\xff", index, (int)(float_num * 100));
+    printf("page0.x%d.val=%d\xff\xff\xff", index, (int)(float_num * 1000));
 }
 
 void UARTHMI_Set_Text(uint8_t index, uint8_t *char_p)

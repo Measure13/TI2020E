@@ -155,4 +155,15 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 	HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2);
 	conv_done = true;
 }
+
+void ADC_Get_Values(uint32_t sample_rate)
+{
+  Timer_2_Adjust(SAMPLE_RATE_SPC);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+  while (!conv_done)
+  {
+    ;
+  }
+  conv_done = false;
+}
 /* USER CODE END 1 */

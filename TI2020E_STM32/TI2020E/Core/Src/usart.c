@@ -26,6 +26,7 @@
 volatile bool initialization_done = false;
 volatile bool ready_to_receive = false;
 volatile bool receive_done = false;
+volatile bool new_setting = false;
 
 static uint8_t uart1_rx_bp[UART_RX_BUF_SIZE];
 static uint8_t uart1_tx_bp[UART_RX_BUF_SIZE];
@@ -34,6 +35,8 @@ static uint8_t uart1_tx_cnt = 0;
 static uint8_t uart1_rx_buf = 0;
 
 static const int batch = 16;
+
+#define SET_DISTORTION_TYPE 0x64
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart1;
@@ -127,6 +130,29 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 }
 
 /* USER CODE BEGIN 1 */
+static void switch_setting(uint8_t type)
+{
+  switch (type)
+  {
+  case TOP_DISTORTION:
+    /* code */
+    break;
+  case BOTTOM_DISTORTION:
+    /* code */
+    break;
+  case BOTH_DISTORTION:
+    /* code */
+    break;
+  case CO_DISTORTION:
+    /* code */
+    break;
+  case NO_DISTORTION:
+    /* code */
+    break;
+  default:
+    break;
+  }
+}
 int fputc(int ch, FILE *stream)
 {
 	while((USART1->SR & 0X40) == 0);
@@ -141,6 +167,7 @@ void UART_RX_Data_Parse(uint8_t* p, uint8_t cnt)
   initialization_done = false;
   ready_to_receive = false;
   receive_done = false;
+  new_setting = false;
 	switch (p[0])
   {
   case 0x88:
@@ -151,6 +178,10 @@ void UART_RX_Data_Parse(uint8_t* p, uint8_t cnt)
     break;
   case 0xFD:
     receive_done = true;
+    break;
+  case SET_DISTORTION_TYPE:
+    switch_setting(p[1]);
+    new_setting = true;
     break;
   default:
     break;

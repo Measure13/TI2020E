@@ -43,6 +43,7 @@ void MX_ADC1_Init(void);
 /* USER CODE BEGIN Prototypes */
 extern volatile bool conv_done;
 extern uint16_t adc_values[MAX_DATA_NUM_SPC + 4];
+void ADC_Get_Values(uint32_t sample_rate);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

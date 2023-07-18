@@ -49,9 +49,15 @@ extern "C" {
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
 #define MAX_DATA_NUM_FFT 128
-#define MAX_DATA_NUM_SPC 1024
+#define MAX_DATA_NUM_SPC 256
 #define SAMPLE_RATE_FFT 12800
-#define SAMPLE_RATE_SPC 1024000
+#define SAMPLE_RATE_SPC 64000
+
+#define TOP_DISTORTION 0
+#define BOTTOM_DISTORTION 1
+#define BOTH_DISTORTION 2
+#define CO_DISTORTION 3
+#define NO_DISTORTION 5
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
