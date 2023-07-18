@@ -3,9 +3,9 @@
 <title>Static Call Graph - [TI2020E\TI2020E.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image TI2020E\TI2020E.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Jul 18 18:33:37 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Jul 18 18:44:06 2023
 <BR><P>
-<H3>Maximum Stack Usage =        424 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        448 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 main &rArr; Data_Analysis &rArr; Get_FFT_Data &rArr; arm_rfft_fast_f32 &rArr; arm_cfft_f32 &rArr; arm_cfft_radix8by4_f32 &rArr; arm_radix8_butterfly_f32
 <P>
@@ -1280,7 +1280,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[5c]"></a>main</STRONG> (Thumb, 96 bytes, Stack size 0 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 424<LI>Call Chain = main &rArr; Data_Analysis &rArr; Get_FFT_Data &rArr; arm_rfft_fast_f32 &rArr; arm_cfft_f32 &rArr; arm_cfft_radix8by4_f32 &rArr; arm_radix8_butterfly_f32
+<BR><BR>[Stack]<UL><LI>Max Depth = 448<LI>Call Chain = main &rArr; Data_Analysis &rArr; Get_FFT_Data &rArr; arm_rfft_fast_f32 &rArr; arm_cfft_f32 &rArr; arm_cfft_radix8by4_f32 &rArr; arm_radix8_butterfly_f32
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM2_Init
@@ -1330,8 +1330,8 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[85]"></a>Data_Analysis</STRONG> (Thumb, 328 bytes, Stack size 112 bytes, main.o(i.Data_Analysis))
-<BR><BR>[Stack]<UL><LI>Max Depth = 424<LI>Call Chain = Data_Analysis &rArr; Get_FFT_Data &rArr; arm_rfft_fast_f32 &rArr; arm_cfft_f32 &rArr; arm_cfft_radix8by4_f32 &rArr; arm_radix8_butterfly_f32
+<P><STRONG><a name="[85]"></a>Data_Analysis</STRONG> (Thumb, 328 bytes, Stack size 136 bytes, main.o(i.Data_Analysis))
+<BR><BR>[Stack]<UL><LI>Max Depth = 448<LI>Call Chain = Data_Analysis &rArr; Get_FFT_Data &rArr; arm_rfft_fast_f32 &rArr; arm_cfft_f32 &rArr; arm_cfft_radix8by4_f32 &rArr; arm_radix8_butterfly_f32
 </UL>
 <BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTHMI_Send_Float
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;merge_sort
@@ -1340,7 +1340,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[86]"></a>Get_FFT_Data</STRONG> (Thumb, 190 bytes, Stack size 48 bytes, main.o(i.Get_FFT_Data))
+<P><STRONG><a name="[86]"></a>Get_FFT_Data</STRONG> (Thumb, 226 bytes, Stack size 48 bytes, main.o(i.Get_FFT_Data))
 <BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = Get_FFT_Data &rArr; arm_rfft_fast_f32 &rArr; arm_cfft_f32 &rArr; arm_cfft_radix8by4_f32 &rArr; arm_radix8_butterfly_f32
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_rfft_fast_init_f32
