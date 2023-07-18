@@ -69,6 +69,7 @@ static void Analyze_Distortion(void);
 static inline uint32_t max_u32(uint32_t a, uint32_t b);
 static inline uint32_t min_u32(uint32_t a, uint32_t b);
 static void merge_sort(float32_t* p, uint32_t len, bool ascending);
+static float32_t Get_Median(float32_t* p, uint32_t len);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -111,6 +112,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
 	HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_values, max_u32(MAX_DATA_NUM_FFT + 4, MAX_DATA_NUM_SPC + 4) );
+  UARTHMI_Forget_It();
+  UARTHMI_Reset();
+  HAL_Delay(150);
   Get_Wave_Data();
   Data_Analysis();
   Analyze_Distortion();
@@ -222,50 +226,66 @@ static void Get_Wave_Data(void)
 static void Analyze_Distortion(void)
 {
 	float32_t max_val, min_val;
-	uint32_t max_index, min_index;
+	uint32_t max_index, min_index, ADC_values_sum;
+  ADC_Get_Values(SAMPLE_RATE_SPC);
+	ADC_values_sum = 0;
+  for (uint16_t i = 0; i < MAX_DATA_NUM_SPC; ++i)
+  {
+    ADC_values_sum += adc_values[i + 4];
+    ADC_values_backup[i] = (float32_t)adc_values[i + 4];
+  }
+  float32_t ADC_values_mean = (float32_t)ADC_values_sum / MAX_DATA_NUM_SPC;
+  for (uint16_t i = 0; i < MAX_DATA_NUM_SPC; ++i)
+  {
+    ADC_values_backup[i] -= ADC_values_mean;
+    ADC_values_backup[i] *= 0.0008056640625f;
+  }
+  
   arm_max_f32(ADC_values_backup, MAX_DATA_NUM_SPC, &max_val, &max_index);
   arm_min_f32(ADC_values_backup, MAX_DATA_NUM_SPC, &min_val, &min_index);
   if (max_val + min_val > 0.2f)
   {
-    UARTHMI_Send_Text(2, TOP_DISTORTION);
+    UARTHMI_Send_Text(2, BOTTOM_DISTORTION);
   }
   else if (max_val + min_val < -0.2f)
   {
-    UARTHMI_Send_Text(2, BOTTOM_DISTORTION);
+    UARTHMI_Send_Text(2, TOP_DISTORTION);
   }
   else
   {
-    float32_t top_sum = 0.0f;
-    for (uint8_t i = 1; i < TOP_SMOOTH_NUM; ++i)
+    float32_t room[2 * TOP_SMOOTH_NUM];
+    for (uint8_t i = 0; i < 2 * TOP_SMOOTH_NUM; ++i)
     {
-      top_sum += ADC_values_backup[max_index + i];
-      top_sum += ADC_values_backup[max_index - i];
+      room[i] = fabs(ADC_values_backup[max_index - TOP_SMOOTH_NUM + i + 1] - ADC_values_backup[max_index - TOP_SMOOTH_NUM + i]);
     }
-    if (top_sum >= max_val * (TOP_SMOOTH_NUM - 1) * 2.0f * 0.9f)
+	float32_t med_temp = Get_Median(room, 2 * TOP_SMOOTH_NUM);
+    if ((med_temp < ACCEPT_DIFF) && (med_temp > -ACCEPT_DIFF))
     {
-      UARTHMI_Send_Text(2, BOTTOM_DISTORTION);
+      UARTHMI_Send_Text(2, BOTH_DISTORTION);
     }
     else
     {
       uint16_t i = 0;
       uint16_t cnt = 0;
-      while (i < 255)
+	  uint16_t cycle = 0;
+      while (cycle <= 3)
       {
-        while (!((ADC_values_backup[i] - ADC_values_backup[i + 1] < 0) && (ADC_values_backup[i + 1] - ADC_values_backup[i + 2] < 0) && (ADC_values_backup[i + 2] - ADC_values_backup[i + 3] < 0) && (ADC_values_backup[i + 3] >= 0.3f)))
+        while ((i < 255) && (!((ADC_values_backup[i] - ADC_values_backup[i + 1] > 0.0f) && (ADC_values_backup[i + 1] - ADC_values_backup[i + 2] > 0.0f) && (ADC_values_backup[i + 2] - ADC_values_backup[i + 3] > 0.0f) && (ADC_values_backup[i] >= 0.4f))))
         {
           ++i;
         }
-        while (ADC_values_backup[i] >= 0.2f)
+        while ((i < 255) && (ADC_values_backup[i] >= 0.15f))
         {
           ++i;
         }
-        while (ADC_values_backup[i] >= -0.2f)
+        while ((i < 255) && (ADC_values_backup[i] >= -0.15f))
         {
           ++i;
           ++cnt;
         }
+		++cycle;
       }
-      if (cnt >= CROSS_OVER_ZEROS)
+      if (cnt > CROSS_OVER_ZEROS)
       {
         UARTHMI_Send_Text(2, CO_DISTORTION);
       }
@@ -372,6 +392,18 @@ static void merge_sort(float32_t* p, uint32_t len, bool ascending)
             free(room);
         }
     }
+}
+static float32_t Get_Median(float32_t* p, uint32_t len)
+{
+	merge_sort(p, len, true);
+	if (len % 2)
+	{
+		return p[len / 2];
+	}
+	else
+	{
+		return (p[len / 2 - 1] + p[len / 2]) / 2;
+	}
 }
 /* USER CODE END 4 */
 

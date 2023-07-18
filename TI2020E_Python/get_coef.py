@@ -3,7 +3,8 @@ from numpy import pi
 from scipy.fft import fft
 import matplotlib.pyplot as plt
 
-sig_amp = 2.7 / 2
+Vpp = 2.0
+sig_amp = Vpp / 2
 dc_bias = 1.5
 diode_drop = 0.7
 
@@ -15,6 +16,7 @@ both = 2
 cross_over = 3
 no = 5
 distortion = cross_over
+dist_dict = {up:"up", down:"down", both:"both", cross_over:"cross over", no:"no"}
 
 x = np.arange(256, dtype=np.float64) * 20 * pi / 255
 y_normal = sig_amp * np.sin(x) + dc_bias
@@ -41,15 +43,14 @@ fig, axes = plt.subplots(3, 1, sharex=True)
 axes[0].plot(x, y_normal, label="normal")
 axes[1].plot(x, y_dist, label="dist")
 axes[2].plot(x, fft_amp, label="fft")
-print(max_ind)
-amp_correct = 2.7 / (fft_amp[max_ind] * fft_dc)
+amp_correct = Vpp / (fft_amp[max_ind] * fft_dc)
 ang_correct = -(fft_ang[max_ind] % 360)
-print("1th: amp:2.7, ang:0.0")
+print(f"type:{dist_dict[distortion]} 1th: amp:{Vpp}, ang:0.0")
 THD = 0.0
 for i in range(2, 6):
-    print(f"{i}th: amp:{fft_amp[max_ind * i] * fft_dc * amp_correct}, ang:{(fft_ang[max_ind * i] + ang_correct) % 360}")
+    print(f"{i}th: amp:{fft_amp[max_ind * i] * fft_dc * amp_correct}\t\tang:{(fft_ang[max_ind * i] + ang_correct) % 360}")
     THD = (fft_amp[max_ind * i] * fft_dc * amp_correct) ** 2 + THD
-THD /= 2.7 ** 2
+THD /= Vpp ** 2
 THD = np.sqrt(THD)
 print(f"THD:{THD}")
-plt.show()
+# plt.show()
