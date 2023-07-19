@@ -114,6 +114,7 @@ int main(void)
 	HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_values, max_u32(MAX_DATA_NUM_FFT + 4, MAX_DATA_NUM_SPC + 4) );
   UARTHMI_Forget_It();
   UARTHMI_Reset();
+  NON_D;
   HAL_Delay(150);
   Get_Wave_Data();
   Data_Analysis();
@@ -131,6 +132,7 @@ int main(void)
     if (new_setting)
     {
       new_setting = false;
+      HAL_Delay(RELAY_DELAY);
       Get_Wave_Data();
       Data_Analysis();
       Analyze_Distortion();

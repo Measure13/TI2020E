@@ -135,19 +135,19 @@ static void switch_setting(uint8_t type)
   switch (type)
   {
   case TOP_DISTORTION:
-    /* code */
+    TOP_D;
     break;
   case BOTTOM_DISTORTION:
-    /* code */
+    BTM_D;
     break;
   case BOTH_DISTORTION:
-    /* code */
+    BTH_D;
     break;
   case CO_DISTORTION:
-    /* code */
+    CRS_D;
     break;
   case NO_DISTORTION:
-    /* code */
+    NON_D;
     break;
   default:
     break;

@@ -31,6 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "gpio.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -70,6 +71,30 @@ extern "C" {
 #define CO_DISTORTION 3
 #define NO_DISTORTION 5
 #define OTHER_DISTORTION 6
+
+#define RELAY_DELAY 100
+
+#define NON_D HAL_GPIO_WritePin(GPIOA, TOP_Pin|BTM_Pin|BTH_Pin|CRS_Pin, GPIO_PIN_RESET)
+#define TOP_D do \
+              { \
+                HAL_GPIO_WritePin(GPIOA, BTM_Pin|BTH_Pin|CRS_Pin, GPIO_PIN_RESET);\
+                HAL_GPIO_WritePin(GPIOA, TOP_Pin, GPIO_PIN_SET);\
+              } while (false)
+#define BTM_D do \
+              { \
+                HAL_GPIO_WritePin(GPIOA, TOP_Pin|BTH_Pin|CRS_Pin, GPIO_PIN_RESET);\
+                HAL_GPIO_WritePin(GPIOA, BTM_Pin, GPIO_PIN_SET);\
+              } while (false)
+#define BTH_D do \
+              { \
+                HAL_GPIO_WritePin(GPIOA, TOP_Pin|BTM_Pin|CRS_Pin, GPIO_PIN_RESET);\
+                HAL_GPIO_WritePin(GPIOA, BTH_Pin, GPIO_PIN_SET);\
+              } while (false)
+#define CRS_D do \
+              { \
+                HAL_GPIO_WritePin(GPIOA, TOP_Pin|BTH_Pin|BTM_Pin, GPIO_PIN_RESET);\
+                HAL_GPIO_WritePin(GPIOA, CRS_Pin, GPIO_PIN_SET);\
+              } while (false)
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
@@ -80,7 +105,14 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-
+#define TOP_Pin GPIO_PIN_11
+#define TOP_GPIO_Port GPIOA
+#define BTM_Pin GPIO_PIN_12
+#define BTM_GPIO_Port GPIOA
+#define BTH_Pin GPIO_PIN_13
+#define BTH_GPIO_Port GPIOA
+#define CRS_Pin GPIO_PIN_14
+#define CRS_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
