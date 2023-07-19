@@ -54,3 +54,8 @@ THD /= Vpp ** 2
 THD = np.sqrt(THD)
 print(f"THD:{THD}")
 # plt.show()
+
+#both:0.3528279100283136
+#up:0.3445100732448675
+#down:0.3445100732448674
+#cross:0.5748655187489286

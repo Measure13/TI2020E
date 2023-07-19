@@ -204,6 +204,9 @@ void UARTHMI_Send_Text(uint8_t index, uint8_t wrong_info)
     case NO_DISTORTION:
         UARTHMI_Set_Text(index, "\xce\xde\xca\xa7\xd5\xe6");
         break;
+	case OTHER_DISTORTION:
+        UARTHMI_Set_Text(index, "\xc6\xe4\xcb\xfb\xca\xa7\xd5\xe6");
+        break;
     default:
         break;
     }

@@ -55,18 +55,21 @@ extern "C" {
 #define SAMPLE_RATE_SPC 64000
 
 #define ACCEPT_PROPORTION 0.001f
-#define ACCEPT_CNT_RANGE 6
+#define ACCEPT_CNT_RANGE 4
 #define ACCEPT_DIFF 0.02f
+#define NOISE_LIMIT 0.02f
 
 #define REMEASURE_NUM 20
 #define TOP_SMOOTH_NUM 8
 #define CROSS_OVER_ZEROS 24
+#define DISTORTION_LIMIT 0.3f
 
 #define TOP_DISTORTION 0
 #define BOTTOM_DISTORTION 1
 #define BOTH_DISTORTION 2
 #define CO_DISTORTION 3
 #define NO_DISTORTION 5
+#define OTHER_DISTORTION 6
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/

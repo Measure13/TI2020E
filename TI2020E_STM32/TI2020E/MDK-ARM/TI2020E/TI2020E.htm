@@ -3,7 +3,7 @@
 <title>Static Call Graph - [TI2020E\TI2020E.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image TI2020E\TI2020E.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Jul 18 22:46:51 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Jul 19 09:34:32 2023
 <BR><P>
 <H3>Maximum Stack Usage =        448 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1088,7 +1088,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Data_Analysis
 </UL>
 
-<P><STRONG><a name="[83]"></a>UARTHMI_Send_Text</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, usart_hmi.o(i.UARTHMI_Send_Text))
+<P><STRONG><a name="[83]"></a>UARTHMI_Send_Text</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, usart_hmi.o(i.UARTHMI_Send_Text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = UARTHMI_Send_Text &rArr; UARTHMI_Set_Text &rArr; USART_Send_Data_Direct &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTHMI_Set_Text
@@ -1351,7 +1351,7 @@ Global Symbols
 <H3>
 Local Symbols
 </H3>
-<P><STRONG><a name="[80]"></a>Analyze_Distortion</STRONG> (Thumb, 426 bytes, Stack size 96 bytes, main.o(i.Analyze_Distortion))
+<P><STRONG><a name="[80]"></a>Analyze_Distortion</STRONG> (Thumb, 444 bytes, Stack size 96 bytes, main.o(i.Analyze_Distortion))
 <BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = Analyze_Distortion &rArr; UARTHMI_Send_Text &rArr; UARTHMI_Set_Text &rArr; USART_Send_Data_Direct &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_min_f32
@@ -1373,7 +1373,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[87]"></a>Get_FFT_Data</STRONG> (Thumb, 226 bytes, Stack size 48 bytes, main.o(i.Get_FFT_Data))
+<P><STRONG><a name="[87]"></a>Get_FFT_Data</STRONG> (Thumb, 258 bytes, Stack size 48 bytes, main.o(i.Get_FFT_Data))
 <BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = Get_FFT_Data &rArr; arm_rfft_fast_f32 &rArr; arm_cfft_f32 &rArr; arm_cfft_radix8by4_f32 &rArr; arm_radix8_butterfly_f32
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_rfft_fast_init_f32

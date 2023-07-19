@@ -213,8 +213,14 @@ static void Get_FFT_Data(void)
   }
   arm_rfft_fast_f32(&S, ADC_values_f, FFT_Res, 0);
   arm_cmplx_mag_squared_f32(FFT_Res, FFT_Mag, MAX_DATA_NUM_FFT);
+  for (uint16_t i = 0; i < MAX_DATA_NUM_FFT; ++i)
+  {
+    if (FFT_Mag[i] < NOISE_LIMIT)
+    {
+      FFT_Mag[i] = 0.00f;
+    }
+  }
   arm_max_f32(FFT_Mag, MAX_DATA_NUM_FFT / 2, &FFT_Max_val, &FFT_Max_index);
-
 }
 
 static void Get_Wave_Data(void)
@@ -289,6 +295,10 @@ static void Analyze_Distortion(void)
       {
         UARTHMI_Send_Text(2, CO_DISTORTION);
       }
+	  else if (THD > DISTORTION_LIMIT)
+	  {
+		UARTHMI_Send_Text(2, OTHER_DISTORTION);
+	  }
       else
       {
         UARTHMI_Send_Text(2, NO_DISTORTION);
