@@ -133,12 +133,11 @@ int main(void)
     {
       new_setting = false;
       HAL_Delay(RELAY_DELAY);
-      Get_Wave_Data();
-      Data_Analysis();
-      Analyze_Distortion();
       printf("page0.t2.pco=2023\xff\xff\xff");
     }
-    
+    Get_Wave_Data();
+    Data_Analysis();
+    Analyze_Distortion();
   }
   /* USER CODE END 3 */
 }
@@ -251,11 +250,11 @@ static void Analyze_Distortion(void)
   
   arm_max_f32(ADC_values_backup, MAX_DATA_NUM_SPC, &max_val, &max_index);
   arm_min_f32(ADC_values_backup, MAX_DATA_NUM_SPC, &min_val, &min_index);
-  if (max_val + min_val > 0.2f)
+  if (max_val + min_val > MAX_MIN_DIFF)
   {
     UARTHMI_Send_Text(2, BOTTOM_DISTORTION);
   }
-  else if (max_val + min_val < -0.2f)
+  else if (max_val + min_val < -MAX_MIN_DIFF)
   {
     UARTHMI_Send_Text(2, TOP_DISTORTION);
   }
@@ -293,7 +292,7 @@ static void Analyze_Distortion(void)
         }
 		++cycle;
       }
-      if (cnt > CROSS_OVER_ZEROS)
+      if (cnt > CROSS_OVER_ZEROS || (THD > CRS_MIN && THD < CRS_MAX))
       {
         UARTHMI_Send_Text(2, CO_DISTORTION);
       }

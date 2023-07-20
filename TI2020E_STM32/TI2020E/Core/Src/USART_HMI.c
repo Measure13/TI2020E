@@ -84,6 +84,10 @@ void UARTHMI_Draw_ADC_Wave(int index, uint16_t *pf, uint16_t num, uint8_t margin
     USART_Send_Data_Direct((uint8_t*)message, strlen(message));
     while (!ready_to_receive)
     {
+		if (new_setting)
+		{
+			return;
+		}
     }
     ready_to_receive = false;
     for (uint16_t i = 1; i < num; ++i)
@@ -105,6 +109,10 @@ void UARTHMI_Draw_ADC_Wave(int index, uint16_t *pf, uint16_t num, uint8_t margin
     USART_Send_Data_Direct(data_tmp_write, num);
     while (!receive_done)
     {
+		if (new_setting)
+		{
+			return;
+		}
     }
     receive_done = false;
 }
@@ -185,27 +193,39 @@ void UARTHMI_Set_Text(uint8_t index, uint8_t *char_p)
     free(send_str);
 }
 
+void UARTHMI_Set_Text_Page(uint8_t index, uint8_t page, uint8_t *char_p)
+{
+    uint8_t send_len;
+    uint8_t len = UARTHMI_Get_Integer_Digits(index) + strlen((char *)char_p) + 11 + 5; // +5 for safe
+    uint8_t *send_str = (uint8_t *)malloc(len * sizeof(uint8_t));
+    memset(send_str, 0, sizeof(uint8_t) * (len));
+    sprintf((char *)send_str, "page%d.t%d.txt=\"%s\"", page, index, char_p);
+    send_len = UARTHMI_Append_Ending(send_str);
+    USART_Send_Data_Direct(send_str, send_len);
+    free(send_str);
+}
+
 void UARTHMI_Send_Text(uint8_t index, uint8_t wrong_info)
 {
     switch (wrong_info)
     {
     case TOP_DISTORTION:
-        UARTHMI_Set_Text(index, "\xb6\xa5\xb2\xbf\xca\xa7\xd5\xe6");
+        UARTHMI_Set_Text_Page(index, 0, "\xb6\xa5\xb2\xbf\xca\xa7\xd5\xe6");
         break;
     case BOTTOM_DISTORTION:
-        UARTHMI_Set_Text(index, "\xb5\xd7\xb2\xbf\xca\xa7\xd5\xe6");
+        UARTHMI_Set_Text_Page(index, 0, "\xb5\xd7\xb2\xbf\xca\xa7\xd5\xe6");
         break;
     case BOTH_DISTORTION:
-        UARTHMI_Set_Text(index, "\xcb\xab\xcf\xf2\xca\xa7\xd5\xe6");
+        UARTHMI_Set_Text_Page(index, 0, "\xcb\xab\xcf\xf2\xca\xa7\xd5\xe6");
         break;
     case CO_DISTORTION:
-        UARTHMI_Set_Text(index, "\xbd\xbb\xd4\xbd\xca\xa7\xd5\xe6");
+        UARTHMI_Set_Text_Page(index, 0, "\xbd\xbb\xd4\xbd\xca\xa7\xd5\xe6");
         break;
     case NO_DISTORTION:
-        UARTHMI_Set_Text(index, "\xce\xde\xca\xa7\xd5\xe6");
+        UARTHMI_Set_Text_Page(index, 0, "\xce\xde\xca\xa7\xd5\xe6");
         break;
 	case OTHER_DISTORTION:
-        UARTHMI_Set_Text(index, "\xc6\xe4\xcb\xfb\xca\xa7\xd5\xe6");
+        UARTHMI_Set_Text_Page(index, 0, "\xc6\xe4\xcb\xfb\xca\xa7\xd5\xe6");
         break;
     default:
         break;

@@ -63,7 +63,10 @@ extern "C" {
 #define REMEASURE_NUM 20
 #define TOP_SMOOTH_NUM 8
 #define CROSS_OVER_ZEROS 24
-#define DISTORTION_LIMIT 0.3f
+#define DISTORTION_LIMIT 0.2f
+#define MAX_MIN_DIFF 0.3f
+#define CRS_MAX 0.09f
+#define CRS_MIN 0.05f
 
 #define TOP_DISTORTION 0
 #define BOTTOM_DISTORTION 1
@@ -74,26 +77,26 @@ extern "C" {
 
 #define RELAY_DELAY 100
 
-#define NON_D HAL_GPIO_WritePin(GPIOA, TOP_Pin|BTM_Pin|BTH_Pin|CRS_Pin, GPIO_PIN_RESET)
+#define NON_D HAL_GPIO_WritePin(GPIOC, TOP_Pin|BTM_Pin|BTH_Pin|CRS_Pin, GPIO_PIN_RESET)
 #define TOP_D do \
               { \
-                HAL_GPIO_WritePin(GPIOA, BTM_Pin|BTH_Pin|CRS_Pin, GPIO_PIN_RESET);\
-                HAL_GPIO_WritePin(GPIOA, TOP_Pin, GPIO_PIN_SET);\
+                HAL_GPIO_WritePin(GPIOC, BTM_Pin|BTH_Pin|CRS_Pin, GPIO_PIN_RESET);\
+                HAL_GPIO_WritePin(GPIOC, TOP_Pin, GPIO_PIN_SET);\
               } while (false)
 #define BTM_D do \
               { \
-                HAL_GPIO_WritePin(GPIOA, TOP_Pin|BTH_Pin|CRS_Pin, GPIO_PIN_RESET);\
-                HAL_GPIO_WritePin(GPIOA, BTM_Pin, GPIO_PIN_SET);\
+                HAL_GPIO_WritePin(GPIOC, TOP_Pin|BTH_Pin|CRS_Pin, GPIO_PIN_RESET);\
+                HAL_GPIO_WritePin(GPIOC, BTM_Pin, GPIO_PIN_SET);\
               } while (false)
 #define BTH_D do \
               { \
-                HAL_GPIO_WritePin(GPIOA, TOP_Pin|BTM_Pin|CRS_Pin, GPIO_PIN_RESET);\
-                HAL_GPIO_WritePin(GPIOA, BTH_Pin, GPIO_PIN_SET);\
+                HAL_GPIO_WritePin(GPIOC, TOP_Pin|BTM_Pin|CRS_Pin, GPIO_PIN_RESET);\
+                HAL_GPIO_WritePin(GPIOC, BTH_Pin, GPIO_PIN_SET);\
               } while (false)
 #define CRS_D do \
               { \
-                HAL_GPIO_WritePin(GPIOA, TOP_Pin|BTH_Pin|BTM_Pin, GPIO_PIN_RESET);\
-                HAL_GPIO_WritePin(GPIOA, CRS_Pin, GPIO_PIN_SET);\
+                HAL_GPIO_WritePin(GPIOC, TOP_Pin|BTH_Pin|BTM_Pin, GPIO_PIN_RESET);\
+                HAL_GPIO_WritePin(GPIOC, CRS_Pin, GPIO_PIN_SET);\
               } while (false)
 /* USER CODE END EM */
 
@@ -105,14 +108,14 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define TOP_Pin GPIO_PIN_11
-#define TOP_GPIO_Port GPIOA
-#define BTM_Pin GPIO_PIN_12
-#define BTM_GPIO_Port GPIOA
-#define BTH_Pin GPIO_PIN_13
-#define BTH_GPIO_Port GPIOA
-#define CRS_Pin GPIO_PIN_14
-#define CRS_GPIO_Port GPIOA
+#define TOP_Pin GPIO_PIN_10
+#define TOP_GPIO_Port GPIOC
+#define BTM_Pin GPIO_PIN_11
+#define BTM_GPIO_Port GPIOC
+#define BTH_Pin GPIO_PIN_12
+#define BTH_GPIO_Port GPIOC
+#define CRS_Pin GPIO_PIN_13
+#define CRS_GPIO_Port GPIOC
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

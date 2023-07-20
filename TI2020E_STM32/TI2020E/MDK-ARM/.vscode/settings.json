@@ -5,6 +5,7 @@
         "main.h": "c",
         "adc.h": "c",
         "usart.h": "c",
-        "tim.h": "c"
+        "tim.h": "c",
+        "gpio.h": "c"
     }
 }
