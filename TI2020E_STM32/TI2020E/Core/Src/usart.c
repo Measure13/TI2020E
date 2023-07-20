@@ -37,6 +37,8 @@ static uint8_t uart1_rx_buf = 0;
 static const int batch = 16;
 
 #define SET_DISTORTION_TYPE 0x64
+#define NO_EXT_SIGNAL 0X65
+#define HAS_EXT_SIGNAL 0X66
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart1;
@@ -181,6 +183,14 @@ void UART_RX_Data_Parse(uint8_t* p, uint8_t cnt)
     break;
   case SET_DISTORTION_TYPE:
     switch_setting(p[1]);
+    new_setting = true;
+    break;
+  case NO_EXT_SIGNAL:
+    EXT_N;
+    new_setting = true;
+    break;
+  case HAS_EXT_SIGNAL:
+    EXT_H;
     new_setting = true;
     break;
   default:

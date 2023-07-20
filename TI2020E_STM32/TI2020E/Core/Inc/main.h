@@ -98,6 +98,14 @@ extern "C" {
                 HAL_GPIO_WritePin(GPIOC, TOP_Pin|BTH_Pin|BTM_Pin, GPIO_PIN_RESET);\
                 HAL_GPIO_WritePin(GPIOC, CRS_Pin, GPIO_PIN_SET);\
               } while (false)
+#define EXT_H do \
+              { \
+                HAL_GPIO_WritePin(GPIOC, EXT_Pin, GPIO_PIN_SET);\
+              } while (false)
+#define EXT_N do \
+              { \
+                HAL_GPIO_WritePin(GPIOC, EXT_Pin, GPIO_PIN_RESET);\
+              } while (false)
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
@@ -108,6 +116,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define EXT_Pin GPIO_PIN_6
+#define EXT_GPIO_Port GPIOC
 #define TOP_Pin GPIO_PIN_10
 #define TOP_GPIO_Port GPIOC
 #define BTM_Pin GPIO_PIN_11

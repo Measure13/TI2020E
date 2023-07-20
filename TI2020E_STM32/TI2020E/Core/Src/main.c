@@ -115,6 +115,7 @@ int main(void)
   UARTHMI_Forget_It();
   UARTHMI_Reset();
   NON_D;
+  EXT_N;
   HAL_Delay(150);
   Get_Wave_Data();
   Data_Analysis();
